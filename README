@@ -1,2 +1,14 @@
-IP camera based on Logitech webcam, Beaglebone and gstreamer.
+IP camera based on Logitech webcam, Beaglebone/Raspberry Pi and gstreamer.
+
+
+Run gstreamer in a remote machine, I use Windows as a client to view the video stream
+Install all the components of gstreamer-1.0
+run the gst-launch from the bin directory of gstreamer, or you can set your environment PATH to gstreamers bin directory.
+cd D:\gstreamer\1.0\x86_64\bin
+D:\gstreamer\1.0\x86_64\bin>gst-launch-1.0 -e -v udpsrc port=8001 ! application/x-rtp, payload=96 ! rtpjitterbuffer ! rtph264depay ! avdec_h264 ! autovideosink sync=false
+
+Under Ubuntu, should be using the similar commandline as windows. (Not tested yet)
+
+When using in Raspberry Pi 
+./capture -c 10000 -o | gst-launch-1.0 -v -e filesrc location=/dev/fd/0 ! h264parse ! rtph264pay ! udpsink host=192.168.1.42 port=8001
 
